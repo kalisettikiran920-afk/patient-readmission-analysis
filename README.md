@@ -11,20 +11,20 @@
 
 **An end-to-end hospital readmission analytics project — from raw diabetic encounter data to a 3-page interactive Power BI dashboard surfacing actionable clinical and operational insights.**
 
-[Overview](#-project-overview) •
-[Objectives](#-objectives) •
-[Dataset](#-dataset) •
-[Repository Structure](#-repository-structure) •
-[SQL Pipeline](#-sql-analysis-pipeline) •
-[Dashboard](#-power-bi-dashboard) •
-[Key Findings](#-key-findings) •
-[Tech Stack](#-tech-stack)
+[Overview](#project-overview) •
+[Objectives](#objectives) •
+[Dataset](#dataset) •
+[Repository Structure](#repository-structure) •
+[SQL Pipeline](#sql-analysis-pipeline) •
+[Dashboard](#power-bi-dashboard) •
+[Key Findings](#key-findings) •
+[Tech Stack](#tech-stack)
 
 </div>
 
 ---
 
-## 📌 Project Overview
+## 📌 Project Overview <a name="project-overview"></a>
 
 This project delivers a **Patient Readmission Analytics** solution built on the UCI Diabetes 130-US Hospitals dataset. It addresses a critical operational challenge in modern healthcare:
 
@@ -36,7 +36,7 @@ The analysis is grounded in a rigorous eligibility framework: encounters ending 
 
 ---
 
-## 🎯 Objectives
+## 🎯 Objectives <a name="objectives"></a>
 
 1. **Build a Clean Analytical Dataset:** Ingest raw hospital encounter data, cast all fields to appropriate types, replace invalid markers (`?`, `Unknown/Invalid`) with NULL, and document every cleaning decision.
 2. **Define Readmission Eligibility:** Apply clinically sound exclusion criteria to remove patients who could not logically be readmitted within 30 days.
@@ -46,11 +46,11 @@ The analysis is grounded in a rigorous eligibility framework: encounters ending 
 
 ---
 
-## 📊 Dataset
+## 📊 Dataset <a name="dataset"></a>
 
 | Attribute | Detail |
 |---|---|
-| **Source** | [UCI ML Repository — Diabetes 130-US Hospitals (1999–2008)](https://archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008) |
+| **Source** | [UCI ML Repository — Diabetes 130-US Hospitals (1999–2008)](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) |
 | **Raw Rows** | 101,766 hospital encounters |
 | **Eligible Encounters (post-exclusion)** | 99,343 |
 | **Features** | 50 columns — demographics, clinical measures, medication flags, diagnosis codes, and readmission label |
@@ -59,7 +59,7 @@ The analysis is grounded in a rigorous eligibility framework: encounters ending 
 
 ---
 
-## 📁 Repository Structure
+## 📁 Repository Structure <a name="repository-structure"></a>
 
 ```
 Healthcare Analytics/
@@ -73,13 +73,17 @@ Healthcare Analytics/
 ├── Discharge Disposition.xlsx        # Discharge disposition code lookup
 │
 ├── healthcare_analytics.sql          # Full PostgreSQL pipeline (7 sections, 447 lines)
+├── Readmission Analysis.pbix         # Power BI dashboard (3 pages)
 │
-└── Readmission Analysis.pbix         # Power BI dashboard (3 pages)
+└── screenshots/
+    ├── executive_overview.png        # Page 1 — Executive Overview
+    ├── clinical_deep_dive.png        # Page 2 — Clinical Deep Dive
+    └── discharge_analysis.png        # Page 3 — Discharge Analysis
 ```
 
 ---
 
-## 🗄️ SQL Analysis Pipeline
+## 🗄️ SQL Analysis Pipeline <a name="sql-analysis-pipeline"></a>
 
 The [`healthcare_analytics.sql`](healthcare_analytics.sql) file is organized into **7 structured sections**:
 
@@ -107,7 +111,7 @@ The [`healthcare_analytics.sql`](healthcare_analytics.sql) file is organized int
 
 ---
 
-## 📈 Power BI Dashboard
+## 📈 Power BI Dashboard <a name="power-bi-dashboard"></a>
 
 The dashboard is organized into **three pages**, each targeting a different analytical audience:
 
@@ -116,6 +120,8 @@ The dashboard is organized into **three pages**, each targeting a different anal
 ### Page 1 — Executive Overview
 
 High-level KPIs and population-level breakdown of readmission patterns.
+
+![Executive Overview](screenshots/executive_overview.png)
 
 | KPI Card | Value |
 |---|---|
@@ -140,6 +146,8 @@ High-level KPIs and population-level breakdown of readmission patterns.
 
 Clinical factor analysis — lab procedures, medications, and inpatient history.
 
+![Clinical Deep Dive](screenshots/clinical_deep_dive.png)
+
 **Visuals included:**
 - Lab Procedures vs. Medications by Readmission Status (scatter plot — `<30` / `>30` / NO)
 - 30-Day Readmissions and Readmission Rate by Previous Inpatient Visits (combo bar + line)
@@ -153,6 +161,8 @@ Clinical factor analysis — lab procedures, medications, and inpatient history.
 
 Discharge destination risk analysis with KPI cards per discharge type and an embedded key insights panel.
 
+![Discharge Analysis](screenshots/discharge_analysis.png)
+
 | Discharge Destination | Encounters | 30-Day Readmission Rate |
 |---|---|---|
 | Discharged to Home | 60,234 | 9.30% |
@@ -164,19 +174,19 @@ Discharge destination risk analysis with KPI cards per discharge type and an emb
 
 ---
 
-## 🔑 Key Findings
+## 🔑 Key Findings <a name="key-findings"></a>
 
 ### 1. Overall Readmission Rate: 11.39%
 Out of 99,343 eligible encounters, **11,314 were recorded as readmitted within 30 days** — consistent with published benchmarks for diabetic patient populations (11–12%).
 
 ### 2. Young Adults (20–30) Show the Highest Readmission Rate
-At **14.31%**, the [20–30) group has the highest readmission rate of any age band — higher than any elderly group. This may reflect lifestyle non-adherence, lack of chronic disease management experience, or social support gaps, and warrants targeted post-discharge intervention.
+At **14.31%**, the \[20–30) group has the highest readmission rate of any age band — higher than any elderly group. This may reflect lifestyle non-adherence, lack of chronic disease management experience, or social support gaps, and warrants targeted post-discharge intervention.
 
 ### 3. Readmission Risk Rises With Length of Stay
 Readmission rates climb steadily with length of stay, peaking around **8–10 days (14.59%–14.81%)**. Longer stays signal clinical complexity that persists post-discharge.
 
 ### 4. Prior Inpatient History is the Strongest Single Predictor
-Patients with **no prior inpatient visits** have a readmission rate of just **8.59%**. This rises sharply to **34.81%** for patients with 6 prior visits and approaches **100%** at extreme visit counts — confirming that inpatient history is the most powerful readmission risk signal in this dataset.
+Patients with **no prior inpatient visits** have a readmission rate of just **8.59%**. This rises sharply to **34.81%** for patients with 6 prior visits — confirming that inpatient history is the most powerful readmission risk signal in this dataset.
 
 ### 5. SNF and AMA Discharges Carry Significantly Elevated Risk
 Patients discharged to **Skilled Nursing Facilities (14.66%)** and those who **Left Against Medical Advice (14.45%)** show readmission rates well above the 11.39% average. AMA patients in particular may benefit from proactive follow-up outreach programs.
@@ -189,7 +199,7 @@ Encounters where a diabetes medication was changed during the visit show elevate
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack <a name="tech-stack"></a>
 
 | Tool | Purpose |
 |---|---|
@@ -228,3 +238,9 @@ Encounters where a diabetes medication was changed during the visit show elevate
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kiran-kalisetti)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kalisettikiran920-afk)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:kalisettikiran920@gmail.com)
+
+---
+
+<div align="center">
+<sub>Built with PostgreSQL and Power BI &nbsp;·&nbsp; UCI Diabetes 130-US Hospitals Dataset &nbsp;·&nbsp; 2026</sub>
+</div>
